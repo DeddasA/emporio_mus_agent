@@ -1,10 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empório da Música - Atendimento Virtual IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .chat-bubble { max-width: 80%; word-break: break-word; }
+  </style>
 </head>
-<body>
-$END$
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-slate-800/80 backdrop-blur border-b border-slate-700 p-4 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl border border-amber-500/30">
+          🎸
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white">Empório da Música</h1>
+          <p class="text-xs text-slate-400">Assistente Local DeepSeek • RAG Políticas & Dados CSV</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Chat online
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-5xl w-full mx-auto flex-1 flex flex-col md:flex-row gap-4 p-4">
+
+    <!-- Left Column: Chat Area -->
+    <section class="flex-1 flex flex-col bg-slate-800/50 rounded-2xl border border-slate-700/70 overflow-hidden shadow-xl">
+
+      <!-- Messages List -->
+      <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 min-h-[420px] max-h-[60vh] md:max-h-[68vh]">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-sm font-semibold border border-amber-500/40">
+            EM
+          </div>
+          <div class="chat-bubble bg-slate-700/80 text-slate-100 p-3.5 rounded-2xl rounded-tl-none border border-slate-600/50 text-sm leading-relaxed">
+            Olá! Seja bem-vindo(a) à <strong>Empório da Música</strong>! 🎵<br><br>
+            Sou seu assistente virtual especializado. Posso esclarecer dúvidas sobre nossas <strong>políticas de frete, trocas, devoluções, formas de pagamento</strong> ou consultar nosso <strong>catálogo e pedidos</strong>.<br><br>
+            Como posso te ajudar hoje?
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="px-4 py-2 border-t border-slate-700/40 bg-slate-800/30 flex gap-2 overflow-x-auto text-xs">
+        <button onclick="sendQuickPrompt('Vocês vendem encordoamento e palhetas?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
+          🎸 Vende cordas e palhetas?
+        </button>
+        <button onclick="sendQuickPrompt('Como funciona o frete para Campo Grande e para outras cidades?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
+          🚚 Regras de Frete
+        </button>
+        <button onclick="sendQuickPrompt('Posso parcelar no cartão em quantas vezes? Tem desconto no PIX?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
+          💳 Formas de Pagamento
+        </button>
+        <button onclick="sendQuickPrompt('Quais violões e guitarras vocês têm disponíveis no estoque?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
+          📦 Consultar Estoque
+        </button>
+      </div>
+
+      <!-- Chat Input Form -->
+      <form id="chat-form" class="p-3 bg-slate-800 border-t border-slate-700 flex gap-2">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Digite sua dúvida sobre instrumentos ou políticas da loja..."
+          class="flex-1 bg-slate-900/90 text-slate-100 placeholder-slate-400 text-sm px-4 py-2.5 rounded-xl border border-slate-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition"
+          required
+        />
+        <button
+          type="submit"
+          id="send-btn"
+          class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-sm rounded-xl transition flex items-center gap-2 shadow-lg shadow-amber-500/20"
+        >
+          <span>Enviar</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <!-- Right Column: System & RAG Inspector Panel -->
+    <aside class="w-full md:w-80 flex flex-col gap-4">
+      <div class="bg-slate-800/50 rounded-2xl border border-slate-700/70 p-4 shadow-xl">
+        <h2 class="text-sm font-semibold text-white flex items-center gap-2 mb-3">
+          <span>⚙️</span> Raciocínio & RAG Trace
+        </h2>
+        <div id="trace-panel" class="text-xs text-slate-400 space-y-2 bg-slate-900/70 p-3 rounded-xl border border-slate-700/50 min-h-[140px] max-h-[220px] overflow-y-auto">
+          <p class="text-slate-500 italic">O trace do RAG e consultas SQL aparecerão aqui a cada interação...</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/50 rounded-2xl border border-slate-700/70 p-4 shadow-xl flex-1 text-xs text-slate-400 space-y-3">
+        <h3 class="font-semibold text-slate-200 text-sm">📋 Base Conectada</h3>
+        <ul class="space-y-1.5 list-disc list-inside">
+          <li><strong>PDF:</strong> Políticas de Troca, Frete, Garantia (8 págs.)</li>
+          <li><strong>CSV:</strong> Produtos, Categorias, Promoções</li>
+          <li><strong>CSV:</strong> Clientes, Pedidos e Itens</li>
+          <li><strong>LLM:</strong> DeepSeek (via Ollama local)</li>
+        </ul>
+        <div class="pt-2 border-t border-slate-700/60">
+          <p class="text-[11px] text-slate-400">
+            <strong>Dica:</strong> Se o Ollama estiver rodando, as respostas usam o raciocínio local. Caso contrário, um aviso de inicialização é exibido.
+          </p>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const tracePanel = document.getElementById('trace-panel');
+
+    function appendMessage(role, text) {
+      const isUser = role === 'user';
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = `w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 border ${
+        isUser
+          ? 'bg-blue-600/30 text-blue-300 border-blue-500/40'
+          : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+      }`;
+      avatar.innerText = isUser ? 'VOCÊ' : 'EM';
+
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble p-3.5 rounded-2xl border text-sm leading-relaxed whitespace-pre-wrap ${
+        isUser
+          ? 'bg-blue-600 text-white rounded-tr-none border-blue-500/60'
+          : 'bg-slate-700/80 text-slate-100 rounded-tl-none border-slate-600/50'
+      }`;
+      bubble.innerHTML = text.replace(/\\n/g, '<br>');
+
+      msgDiv.appendChild(avatar);
+      msgDiv.appendChild(bubble);
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendQuickPrompt(promptText) {
+      userInput.value = promptText;
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      appendMessage('user', message);
+      userInput.value = '';
+      sendBtn.disabled = true;
+      sendBtn.classList.add('opacity-50');
+
+      // Loading bubble
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'loading-indicator';
+      loadingDiv.className = 'flex items-start gap-3';
+      loadingDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs border border-amber-500/40">EM</div>
+        <div class="chat-bubble bg-slate-700/60 p-3 rounded-2xl rounded-tl-none border border-slate-600/40 text-xs text-slate-400 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-bounce"></span>
+          Digitando...
+        </div>
+      `;
+      chatBox.appendChild(loadingDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+
+        // Remove loading
+        document.getElementById('loading-indicator')?.remove();
+
+        // Show AI response
+        appendMessage('assistant', data.response);
+
+        // Update trace
+        if (data.trace && data.trace.length > 0) {
+          tracePanel.innerHTML = data.trace.map(t => `<div class="p-1 rounded bg-slate-800/80 border border-slate-700/50">${t}</div>`).join('');
+        }
+      } catch (err) {
+        document.getElementById('loading-indicator')?.remove();
+        appendMessage('assistant', '⚠️ Ocorreu um erro de comunicação com o servidor.');
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('opacity-50');
+        userInput.focus();
+      }
+    });
+  </script>
 </body>
 </html>
