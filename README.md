@@ -48,6 +48,19 @@ Para perguntas sobre produtos e valores, o sistema usa RAG + Fast Matcher (SQL +
 *   **SQL Injection Blocker:** Regex que bloqueia comandos maliciosos (ex: `DROP TABLE`).
 
 ---
+## 🚀 Melhorias Futuras (Se houvesse mais tempo)
+
+Com mais tempo de desenvolvimento, o projeto poderia evoluir para uma versão de produção ainda mais robusta. As principais ideias de melhorias incluem:
+
+1.  **Migração para Banco de Dados Relacional (MySQL/PostgreSQL):** Substituir o SQLite por um banco de dados em servidor (como MySQL ou PostgreSQL). Embora o SQLite seja excelente para portabilidade e testes locais, um banco em servidor suportaria múltiplas conexões simultâneas de usuários, maior volume de dados e permitiria a criação de usuários com permissões de acesso (leitura/escrita), algo essencial para um ambiente de produção real.
+2.  **Fallback Avançado e Multi-camadas:** Expandir a lógica de *Fallback* para além do catálogo. Quando o agente não encontrar uma resposta exata, ele poderia fazer uma busca semântica por produtos similares no banco (ex: sugerir um violão de outra marca com o mesmo perfil) em vez de apenas dizer que não encontrou.
+3.  **Diversificação de Respostas por Cenário:** Implementar regras de formatação para o LLM de acordo com o contexto do usuário (ex: respostas mais diretas e técnicas para clientes experientes; respostas mais empáticas e explicativas para iniciantes).
+4.  **Interface (UI/UX) Premium:** Criar um design mais elaborado com animações de carregamento (skeleton screens), histórico de conversas na barra lateral (salvo em *local storage*) e a inclusão de imagens reais dos produtos nos cards do catálogo.
+5.  **Orquestração de Agentes (Multi-Agent System):** Dividir o *MusicStoreAgent* atual em subagentes especializados. Um agente focado apenas em vendas, outro exclusivo para políticas (RAG) e um terceiro para suporte técnico/garantia, coordenados por um agente gerente (Router Master).
+6.  **Embeddings e Busca Semântica Real:** Substituir o RapidFuzz (busca difusa por strings) por um banco de dados vetorial (como ChromaDB ou FAISS) usando embeddings do Ollama. Isso permitiria buscas semânticas complexas (ex: *"um instrumento com som mais quente e ideal para bossa nova"*).
+7.  **Melhoria Contínua com Feedback:** Adicionar botões de "Joinha" e "Não gostei" nas respostas do chat, salvando os feedbacks em uma tabela do banco para que a equipe de desenvolvimento possa monitorar as falhas de alucinação do LLM e refinar os prompts.
+8.  **Medidas mais robustas para segurança para combater 
+injeções de comandos maliciosos através de prompt poisoning dentre demais ameaças.**  
 
 ## 🚀 Como Executar
 
