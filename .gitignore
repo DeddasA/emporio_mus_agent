@@ -16,6 +16,3 @@ logs/
 venv/
 env/
 .env
-
-# Pasta de testes temporários
-emporio_mus_agent/
