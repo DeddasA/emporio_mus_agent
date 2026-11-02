@@ -1,88 +1,53 @@
 # 🎸 Empório da Música - Agente de IA com RAG
 
-Assistente virtual inteligente para a
-loja **Empório da Música** (Campo Grande - MS).
-O sistema utiliza uma arquitetura **RAG (Retrieval-Augmented Generation)** 
-com o modelo local **DeepSeek** (via Ollama) e uma camada de validação em Python
-(Fast Matcher / Grounding) para responder sobre produtos, pedidos e políticas sem alucinações.
-RAG/Fast macther para produtos,valores e afins e RAG e LLM para perguntas complexas.
+Assistente virtual inteligente para a **Empório da Música** (Campo Grande - MS). O sistema utiliza uma arquitetura **RAG (Retrieval-Augmented Generation)** com o modelo local **DeepSeek** (via Ollama) e uma camada de validação em Python (Fast Matcher / Grounding) para responder sobre produtos, pedidos e políticas sem alucinações.
 
-## 🗂️ Estrutura do Projeto e Stack Tecnológico
+Para perguntas sobre produtos e valores, o sistema usa RAG + Fast Matcher (SQL + RapidFuzz). Para perguntas complexas e institucionais (frete, garantia, devolução), o sistema usa RAG + LLM (DeepSeek lendo o `policy.md`).
 
-O projeto foi construído utilizando uma arquitetura modular e híbrida, 
-separando a lógica de dados (determinística) da lógica de conversação (generativa).
-
-### 💻 Linguagem e Ambiente de Desenvolvimento
-*   **Linguagem:** Python 3.12+ (compatível com versões 3.10+).
-*   **IDE:** PyCharm (Backend).
-*   **Framework Web:** Flask (API REST para comunicação com o Frontend).
-
-### 🧠 Inteligência Artificial e Modelos
-
-*   **LLM Local (Agente):** **DeepSeek-R1 8B** e **14B** (executados localmente via Ollama). Responsável pela formatação das respostas, empatia e leitura das políticas.
-*   **Auxílio no Desenvolvimento:** **DeepSeek** e **Gemini Pro** (via chat) foram utilizados como assistentes para acelerar a escrita de trechos de código, estruturação do Frontend (HTML/Tailwind) e brainstorming de ideias.
-*   **Heavy Lifting (Engenharia e Arquitetura):** O trabalho pesado foi feito em sua 
-maior parte manualmente. A lógica central de **anti-alucinação**,
-o roteamento de intenções (Institucional vs. Produtos), 
-a arquitetura do **Fast Matcher** (Early Exit), o motor de busca com RapidFuzz e a validação de
-*Grounding* foram desenhados e implementados por mim, com o DeepSeek atuando como apoio na escrita.
-A lógica de implementação de cada funcionalidade foi desenhada por mim, 
-e tive que investigar e fazer diversas correções e organizações dos arquivos, imports e alucinações.
-*   **Arquitetura:** **RAG (Retrieval-Augmented Generation)** híbrido. 
-O Python busca os dados exatos e o LLM apenas os formata.
-*   **Busca Semântica (Fuzzy Matching):** Biblioteca **RapidFuzz**
-para encontrar produtos mesmo com erros de digitação.
-
-### 🗄️ Dados e ETL (Extração, Transformação e Carga)
-*   **Banco de Dados:** SQLite (`instance/emporio_musica.db`).
-*   **ETL de Dados:** **Pandas** para leitura, tratamento e limpeza dos arquivos CSV.
-*   **Parser de Políticas:** Leitura de Markdown (`policy.md`) para injetar as regras
-da loja no banco.
-
-### 🛡️ Segurança e Anti-Alucinação
-*   **Grounding Validator (Bouncer):** Camada em Python que intercepta a resposta do LLM. Se ele inventar uma marca ou negar um produto que existe no banco, a resposta é descartada.
-*   **Fast Matcher (Early Exit):** Respostas de catálogo em 0.1s geradas diretamente pelo Python, ignorando o LLM para evitar lentidão e alucinações.
-*   **SQL Injection Blocker:** Regex que bloqueia comandos maliciosos (ex: `DROP TABLE`).
-
-### 🔄 Integração de API
-*   **Ollama API:** Comunicação HTTP local para gerar as respostas.
-*   **Flask REST API:** Endpoint `/api/chat` que recebe as mensagens
-do Frontend (HTML/TailwindCSS) e retorna o JSON com a resposta e o *RAG Trace*.
+---
 
 ## 🗂️ Estrutura do Projeto
 
 *   **`Server/server.py`**: API em Flask (porta 5000).
-*   **`Agent/agent.py`**: Roteador e regras de negócio.
-*   **`LLm/llm.py`**: Lógica de busca SQL (Fast Match) e conexão com o LLM.
-*   **`Schema/db_schema.py`**: ETL que lê os CSVs e gera o banco SQLite.
+*   **`Agent/agent.py`**: Roteador, regras de negócio e validação anti-alucinação (Grounding).
+*   **`LLm/llm.py`**: Lógica de busca SQL (Fast Match), motor RapidFuzz e conexão com o LLM.
+*   **`Schema/db_schema.py`**: ETL que lê os CSVs (Pandas) e gera o banco SQLite.
 *   **`RAG/pdf_injector/pdf_loader.py`**: Parser do `policy.md` (RAG).
 *   **`RAG/policy/policy.md`**: Manual de políticas da loja (fonte de verdade).
 *   **`Server/templates/index.html`**: Interface do chat (Dark Mode + RAG Trace).
 *   **`Instance/emporio_musica.db`**: Banco de dados SQLite (gerado automaticamente).
-*    **`/Data`**: Arquivos csvs base para a criação do banco de dados.
-*    **`Config/config.py`**: Centraliza os caminhos dinâmicos (banco de dados, logs e dados)
-        para garantir portabilidade entre sistemas.
-*    **`README.md`**: Documentação geral do projeto.
-*    **`requirements.txt`**: Arquivo para a instalação 
-     Lista de dependências Python necessárias para rodar o agente.
-*    **`/Logs`**: Logs gerais de -> musical_agent.py e llm.py.
-* 
+*   **`Data/`**: Arquivos CSV base para a criação do banco de dados.
+*   **`Config/config.py`**: Centraliza os caminhos dinâmicos (banco, logs e dados) para garantir portabilidade.
+*   **`Logs/`**: Logs gerais do `musical_agent.py` e `llm.py`.
+*   **`requirements.txt`**: Dependências Python para rodar o agente.
+*   **`README.md`**: Este documento.
 
 ---
 
-## 🚀 Melhorias Futuras (Se houvesse mais tempo)
+## 🧠 Stack Tecnológico e Justificativa das Decisões Técnicas
 
-Com mais tempo de desenvolvimento, o projeto poderia evoluir para uma versão de produção ainda mais robusta. As principais ideias de melhorias incluem:
+### 💻 Linguagem e Ambiente
+*   **Linguagem:** Python 3.12+.
+*   **Framework Web:** Flask (leve, fácil de rodar localmente e integrar com o Ollama).
+*   **IDE:** PyCharm.
 
-1.  **Migração para Banco de Dados Relacional (MySQL/PostgreSQL):** Substituir o SQLite por um banco de dados em servidor (como MySQL ou PostgreSQL). Embora o SQLite seja excelente para portabilidade e testes locais, um banco em servidor suportaria múltiplas conexões simultâneas de usuários, maior volume de dados e permitiria a criação de usuários com permissões de acesso (leitura/escrita), algo essencial para um ambiente de produção real.
-2.  **Fallback Avançado e Multi-camadas:** Expandir a lógica de *Fallback* para além do catálogo. Quando o agente não encontrar uma resposta exata, ele poderia fazer uma busca semântica por produtos similares no banco (ex: sugerir um violão de outra marca com o mesmo perfil) em vez de apenas dizer que não encontrou.
-3.  **Diversificação de Respostas por Cenário:** Implementar regras de formatação para o LLM de acordo com o contexto do usuário (ex: respostas mais diretas e técnicas para clientes experientes; respostas mais empáticas e explicativas para iniciantes).
-4.  **Interface (UI/UX) Premium:** Criar um design mais elaborado com animações de carregamento (skeleton screens), histórico de conversas na barra lateral (salvo em *local storage*) e a inclusão de imagens reais dos produtos nos cards do catálogo.
-5.  **Orquestração de Agentes (Multi-Agent System):** Dividir o *MusicStoreAgent* atual em subagentes especializados. Um agente focado apenas em vendas, outro exclusivo para políticas (RAG) e um terceiro para suporte técnico/garantia, coordenados por um agente gerente (Router Master).
-6.  **Embeddings e Busca Semântica Real:** Substituir o RapidFuzz (busca difusa por strings) por um banco de dados vetorial (como ChromaDB ou FAISS) usando embeddings do Ollama. Isso permitiria buscas semânticas complexas (ex: *"um instrumento com som mais quente e ideal para bossa nova"*).
-7.  **Melhoria Contínua com Feedback:** Adicionar botões de "Joinha" e "Não gostei" nas respostas do chat, salvando os feedbacks em uma tabela do banco para que a equipe de desenvolvimento possa monitorar as falhas de alucinação do LLM e refinar os prompts.
+### 🧠 Inteligência Artificial
+*   **LLM Local (Agente):** **DeepSeek-R1 8B** e **14B** via Ollama. *Justificativa:* Rodar o modelo localmente garante privacidade dos dados da loja, custo zero por token e funciona offline. O 8B é mais rápido para formatação; o 14B é usado se o hardware permitir.
+*   **Arquitetura Híbrida (RAG + Determinismo):** *Justificativa:* LLMs são péssimos em buscar dados exatos (preços, estoque) e tendem a alucinar. Por isso, a busca de produtos é feita via SQL (determinístico) e o LLM apenas formata a resposta final.
+*   **Busca Semântica (Fuzzy Matching):** Biblioteca **RapidFuzz**. *Justificativa:* Permite encontrar produtos mesmo com erros de digitação (ex: "Rozine" em vez de "Rozini") e é extremamente rápido (processamento em C).
+*   **Auxílio no Desenvolvimento:** DeepSeek e Gemini Pro (via chat) foram usados como assistentes para acelerar a escrita de código (boilerplate do Flask, HTML/Tailwind) e brainstorming. **O heavy lifting foi manual:** a lógica de anti-alucinação, o roteamento de intenções, o Fast Matcher e o Grounding foram desenhados e implementados por mim, com o DeepSeek atuando como apoio na escrita e correção.
 
+### 🗄️ Dados e ETL
+*   **Banco de Dados:** SQLite (`instance/emporio_musica.db`). *Justificativa:* Leve, portátil e não exige instalação de servidor para o protótipo. Em produção, seria substituído por PostgreSQL/MySQL.
+*   **ETL:** **Pandas** para leitura, tratamento e limpeza dos CSVs.
+*   **Parser de Políticas:** Leitura do Markdown (`policy.md`) para injetar as regras no banco (RAG).
 
+### 🛡️ Segurança e Anti-Alucinação (O Diferencial)
+*   **Grounding Validator (Bouncer):** Se o LLM inventar uma marca (ex: "Fender") que não está no JSON do banco, ou negar um produto que existe, a resposta é descartada e o Python gera uma lista determinística.
+*   **Fast Matcher (Early Exit):** Respostas de catálogo em **0.1s** geradas diretamente pelo Python, ignorando o LLM. Isso elimina a latência e a chance de alucinação em consultas de preço.
+*   **SQL Injection Blocker:** Regex que bloqueia comandos maliciosos (ex: `DROP TABLE`).
+
+---
 
 ## 🚀 Como Executar
 
