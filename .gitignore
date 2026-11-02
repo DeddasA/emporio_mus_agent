@@ -1,1 +1,21 @@
-/.venv/
+# PyCharm / IDE
+.idea/
+.vscode/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de dados gerado e Logs
+Instance/
+logs/
+*.db
+
+# Ambiente Virtual
+venv/
+env/
+.env
+
+# Pasta de testes temporários
+art_test_01/
