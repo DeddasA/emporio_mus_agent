@@ -3,28 +3,28 @@ import re
 import json
 import logging
 import datetime as dt
-from typing import List, Dict, Any
 import requests as req
 import sqlite3 as sq3
-from fuzz_matcher.fuzz import get_fuzzy_product_ids
+from Fuzz_matcher.fuzz import get_fuzzy_product_ids
 from schema.db_schema import normalize_text
-from pdf_injector.pdf_loader import PolicyBase
 
+from Config.config import DB_PATH, LOG_PATH_LLM
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DB_PATH = os.path.join(BASE_DIR, "instance", "emporio_musica.db")
+ROOT_DIR = os.getcwd()
 
 
-log_file_path = os.path.join(BASE_DIR, "logs", "agent.log")
+
+
 
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+os.makedirs(os.path.dirname(LOG_PATH_LLM), exist_ok=True)
 
-agent_logger = logging.getLogger("agent")
+agent_logger = logging.getLogger("Agent")
 agent_logger.setLevel(logging.INFO)
 if not agent_logger.handlers:
-    _fh = logging.FileHandler(log_file_path, encoding="utf-8")
+    _fh = logging.FileHandler(LOG_PATH_LLM, encoding="utf-8")
     _fh.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] - %(message)s"))
     agent_logger.addHandler(_fh)
     agent_logger.propagate = False
@@ -34,7 +34,7 @@ def agent_log(message):
     print(message, flush=True)
     agent_logger.info(message)
     try:
-        with open(log_file_path, "a", encoding="utf-8") as f:
+        with open(LOG_PATH_LLM, "a", encoding="utf-8") as f:
             timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"{timestamp} - [RAW_BACKUP]: {message}\n")
     except Exception as e:
@@ -130,11 +130,14 @@ def search_products_fallback(query_text: str) -> str:
                 rows = cursor.fetchall()
 
                 if rows:
-                    columns = [desc[0] for desc in cursor.description]
+                    columns = [desc[0] for desc in cursor.description] if cursor.description else []
                     results = [dict(zip(columns, r)) for r in rows]
-                    agent_log(f"[FUZZY_OK] rows={len(results)} query={query_text!r}")
                     conn.close()
+                    agent_log(f"[FALLBACK_OK] rows={len(results)} query={query_text!r}")
                     return json.dumps(results, ensure_ascii=False, indent=2)
+
+
+
 
 
         cursor.execute("PRAGMA table_info(products);")

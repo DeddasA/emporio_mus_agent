@@ -2,14 +2,15 @@ import sqlite3 as sq3
 import requests as req
 import json
 import os
+from Config.config import DB_PATH,POLICY_PATH
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "instance/emporio_musica.db")
-OUTPUT_MD = os.path.join(BASE_DIR, "policy.md")
+
+
+
 
 
 def get_all_policies_from_db():
-    """Pulls the full raw text of the policies from the database."""
+    """Pega as poíticas do pdf e as tranforam em markdown cecra de 80% de percisão"""
     conn = sq3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT page_number, section_title, content FROM store_policies ORDER BY page_number;")
@@ -23,7 +24,7 @@ def get_all_policies_from_db():
 
 
 def generate_with_deepseek(prompt, model="deepseek-r1:14b"):
-    """Sends the prompt to your local Ollama instance."""
+    """Manda a instrução para o LLm Ollama deepseek 14b é altemnte recomendável"""
     print(f"⏳ Enviando prompt para o DeepSeek ({model}). Isso pode levar de 1 a 3 minutos...")
     payload = {
         'model': model,
@@ -47,7 +48,7 @@ def generate_with_deepseek(prompt, model="deepseek-r1:14b"):
 
 if __name__ == "__main__":
     raw_policies = get_all_policies_from_db()
-
+    """Fallback e error handling"""
     if not raw_policies.strip():
         print("❌ Nenhuma política encontrada no banco de dados.")
         exit()
@@ -77,9 +78,9 @@ if __name__ == "__main__":
 
     summary = re.sub(r"<think>.*?</think>", "", summary, flags=re.DOTALL).strip()
 
-    print("\n✅ Síntese concluída! Salvando em 'policy.md'...")
+    print("\n✅ Síntese concluída! Salvando em 'Policy.md'...")
 
-    with open(OUTPUT_MD, "w", encoding="utf-8") as f:
+    with open(POLICY_PATH, "w", encoding="utf-8") as f:
         f.write(summary)
 
     print("\n--- PRÉVIA DO RESULTADO ---\n")

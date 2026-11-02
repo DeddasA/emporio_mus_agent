@@ -5,23 +5,26 @@ import logging
 import datetime as dt
 from typing import List, Dict, Any
 from schema.db_schema import normalize_text
-from llm import LocalDeepSeek, PolicyBase,lookup_order_info, search_products_fallback,get_db_schema,query_database
+from LLm.llm import LocalDeepSeek,lookup_order_info, search_products_fallback,get_db_schema,query_database
+from RAG.pdf_injector.pdf_loader import PolicyBase
+from Config.config import LOG_PATH_AGENT
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DB_PATH = os.path.join(BASE_DIR, "instance", "emporio_musica.db")
+DB_PATH = os.path.join(ROOT_DIR, "Instance", "emporio_musica.db")
 
 
-log_file_path = os.path.join(BASE_DIR, "logs", "music_llm_agent.log")
 
-os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
 
-music_llm_agent = logging.getLogger("music_llm_agent")
+
+
+
+music_llm_agent = logging.getLogger("music_agent")
 music_llm_agent.setLevel(logging.INFO)
 if not music_llm_agent.handlers:
-    _fh = logging.FileHandler(log_file_path, encoding="utf-8")
+    _fh = logging.FileHandler(LOG_PATH_AGENT, encoding="utf-8")
     _fh.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] - %(message)s"))
     music_llm_agent.addHandler(_fh)
     music_llm_agent.propagate = False
@@ -30,7 +33,7 @@ def agent_log(message):
     print(message, flush=True)
     music_llm_agent.info(message)
     try:
-        with open(log_file_path, "a", encoding="utf-8") as f:
+        with open(LOG_PATH_AGENT, "a", encoding="utf-8") as f:
             timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"{timestamp} - [RAW_BACKUP]: {message}\n")
     except Exception as e:
@@ -78,6 +81,11 @@ class MusicStoreAgent:
         "gretsch", "danelectro", "seagull", "godin", "kala", "ohana", "kalani", "shelby",
         "rozini", "giannini", "crafter", "takamine", "music man", "musicman", "pearl",
         "tama", "korg", "nord", "almeida",
+    }
+
+    _FORBIDDEN_BRANDS = {
+        "fender", "gibson", "epiphone", "ibanez", "squier", "cort",
+        "prs", "jackson", "esp", "ltd", "schecter", "gretsch", "danelectro"
     }
 
     _FALSE_NEGATIVE_PATTERNS = [
@@ -147,6 +155,24 @@ class MusicStoreAgent:
         has_defect_intent = any(k in user_msg_clean for k in
                                 ["quebrou", "quebrado", "caiu", "defeito", "conserto", "reparo", "trincou",
                                  "estragou", "arrumar"])
+
+
+    # fallback para marcas inexistentes.
+
+        user_msg_clean_for_brand = normalize_text(user_msg)
+        forbidden_found = [brand for brand in self._FORBIDDEN_BRANDS if brand in user_msg_clean_for_brand]
+        if forbidden_found and not db_rows_for_validation:
+            agent_log(f"[FORBIDDEN_BRAND] Usuário pediu marca não vendida: {forbidden_found}")
+            return {
+                "response": f"Poxa, infelizmente não trabalhamos com a marca **{forbidden_found[0].title()}**. "
+                            f"Nossa loja é especializada em marcas como Yamaha, Tagima, Martin, Takamine, Rozini, Giannini, entre outras. "
+                            f"Posso te mostrar opções de violões ou guitarras de outras marcas que temos em estoque?",
+                "trace": trace + [f"⛔ [Forbidden Brand]: Marca {forbidden_found[0]} bloqueada."],
+                "policies_used": policy_snippets
+            }
+
+
+
 
         # 4. Busca de Pedidos
         order_direct_info = lookup_order_info(user_msg)

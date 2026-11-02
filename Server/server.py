@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-from llm import LocalDeepSeek, DB_PATH
-from pdf_injector.pdf_loader import PolicyBase
+from LLm.llm import LocalDeepSeek
+from RAG.pdf_injector.pdf_loader import PolicyBase
 import sqlite3 as sq3
-from agent.musical_agent import MusicStoreAgent
+from Agent.musical_agent import MusicStoreAgent
 from schema.db_schema import csv_to_db
 import os
-
+from Config.config import DB_PATH
 
 
 

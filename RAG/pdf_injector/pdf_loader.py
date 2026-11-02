@@ -3,12 +3,9 @@ import re
 import unicodedata
 from typing import List
 import sqlite3 as sq3
+from Config.config import DB_PATH, POLICY_PATH
 
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-DB_PATH = os.path.join(ROOT_DIR, "instance", "emporio_musica.db")
-MD_DEFAULT_PATH = os.path.join(ROOT_DIR, "policy", "policy.md")
 
 
 def remove_accents(text: str) -> str:
@@ -17,7 +14,7 @@ def remove_accents(text: str) -> str:
 
 
 def load_pdf_to_db(md_path: str = None) -> int:
-    target_md = md_path or MD_DEFAULT_PATH
+    target_md = md_path or POLICY_PATH
 
     if not os.path.exists(target_md):
         print(f"⚠️ Arquivo Markdown não encontrado em {target_md}")
@@ -74,7 +71,7 @@ from rapidfuzz import fuzz
 
 class PolicyBase:
     def __init__(self, md_path: str = None):
-        self.md_path = md_path or MD_DEFAULT_PATH
+        self.md_path = md_path or POLICY_PATH
         load_pdf_to_db(self.md_path)
         self._policies = []
         self._load_policies_to_memory()

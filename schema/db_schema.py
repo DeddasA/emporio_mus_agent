@@ -4,18 +4,18 @@ import unicodedata
 import pandas as pd
 import sqlite3 as sq3
 
-from pdf_injector.pdf_loader import load_pdf_to_db
+from RAG.pdf_injector.pdf_loader import load_pdf_to_db
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DB_PATH = os.path.join(ROOT_DIR, "instance", "emporio_musica.db")
-DATA_DIR = os.path.join(ROOT_DIR, "data")
+DB_PATH = os.path.join(ROOT_DIR, "Instance", "emporio_musica.db")
+DATA_DIR = os.path.join(ROOT_DIR, "Data")
 PDF_DEFAULT_PATH = os.path.join(ROOT_DIR, "políticas_da_loja.pdf")
 
 if not os.path.exists(PDF_DEFAULT_PATH):
     PDF_DEFAULT_PATH = os.path.join(DATA_DIR, "políticas_da_loja.pdf")
 
-# CRITICAL: Create the instance folder BEFORE SQLite tries to connect
+# CRITICAL: Create the Instance folder BEFORE SQLite tries to connect
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 
 
@@ -112,7 +112,7 @@ def csv_to_db(force: bool = False):
     conn = sq3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # CRITICAL: Create the store_policies table BEFORE pdf_loader tries to insert data
+    # CRITICAL: Create the store_policies table BEFORE pdf_loader tries to insert Data
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS store_policies (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

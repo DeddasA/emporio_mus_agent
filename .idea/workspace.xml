@@ -4,7 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69d56126-9a2f-455b-8710-6053a0e0c8a0" name="Changes" comment="0.0.0.2" />
+    <list default="true" id="69d56126-9a2f-455b-8710-6053a0e0c8a0" name="Changes" comment="0.0.0.2">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/09.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Img/15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Normalizers/normalizers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/server.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/server.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent/musical_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/musical_agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blueprints/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blueprints/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Server/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/categories.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/categories.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/customers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/customers.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/order_items.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/order_items.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/orders.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/orders.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/políticas_da_loja.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Data/políticas_da_loja.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/products.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/products.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/promotions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/promotions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fuzz_matcher/fuzz.py" beforeDir="false" afterPath="$PROJECT_DIR$/Fuzz_matcher/fuzz.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/01.png" beforeDir="false" afterPath="$PROJECT_DIR$/Img/01.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/02.png" beforeDir="false" afterPath="$PROJECT_DIR$/Img/02.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/03.png" beforeDir="false" afterPath="$PROJECT_DIR$/Img/03.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/04.png" beforeDir="false" afterPath="$PROJECT_DIR$/Img/04.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/05.png" beforeDir="false" afterPath="$PROJECT_DIR$/Img/05.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/llm.py" beforeDir="false" afterPath="$PROJECT_DIR$/LLm/llm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normalizers/normalizers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Config/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdf_injector/pdf_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/RAG/pdf_injector/pdf_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdf_paser/pdf_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/RAG/pdf_parser/pdf_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/policy/policy.md" beforeDir="false" afterPath="$PROJECT_DIR$/Policy/policy.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/read.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reqs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schema/db_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/schema/db_schema.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,17 +98,19 @@
     "Python.pdf_parser.executor": "Run",
     "Python.repl.executor": "Run",
     "Python.server.executor": "Run",
+    "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "0.0.0.2"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\LLm" />
+      <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\rag" />
       <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent" />
       <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\llm" />
       <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\instance" />
-      <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\schema" />
-      <recent name="C:\Users\rafae\PycharmProjects\emporio_mus_agent\pdf_injector" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -104,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1793587536673</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="0.0.0.2">
+      <option name="closed" value="true" />
+      <created>1793587869069</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1793587869069</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -116,8 +165,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/blueprints/server.py</url>
-          <line>16</line>
+          <url>file://$PROJECT_DIR$/Server/server.py</url>
+          <line>17</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
