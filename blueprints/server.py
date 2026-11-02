@@ -1,17 +1,27 @@
-import os
 from flask import Flask, render_template, request, jsonify
+from llm import LocalDeepSeek, DB_PATH
+from pdf_injector.pdf_loader import PolicyBase
+import sqlite3 as sq3
+from agent.musical_agent import MusicStoreAgent
 
-from agent import LocalDeepSeek, MusicStoreAgent, DB_PATH
-from pdf_loader import  PolicyBase
 
 
-print(f"📦 Verificando/carregando banco de dados em: {DB_PATH}")
+
+
+print(f"🔍 DB USADO NA BUSCA: {DB_PATH}")
+print(f"🔍 TABELAS DISPONÍVEIS: {sq3.connect(DB_PATH).execute('SELECT name FROM sqlite_master WHERE type=\"table\";').fetchall()}")
+
+
 
 
 app = Flask(__name__, template_folder="templates")
 knowledge_base = PolicyBase()
 deepseek_client = LocalDeepSeek(model_name="deepseek-r1:14b")
 agent = MusicStoreAgent(knowledge_base, deepseek_client)
+
+
+
+
 
 
 @app.route("/")

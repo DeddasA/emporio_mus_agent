@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69d56126-9a2f-455b-8710-6053a0e0c8a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db_schema.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pdf_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="69d56126-9a2f-455b-8710-6053a0e0c8a0" name="Changes" comment="0.0.0.1">
+      <change afterPath="$PROJECT_DIR$/repl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blueprints/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/blueprints/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blueprints/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/blueprints/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +60,7 @@
     "Python.db_schema.executor": "Run",
     "Python.main.executor": "Run",
     "Python.pdf_loader.executor": "Run",
+    "Python.repl.executor": "Run",
     "Python.server.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "0.0.0.1"
@@ -92,6 +89,19 @@
       <option name="presentableId" value="Default" />
       <updated>1793472187815</updated>
     </task>
+    <task id="LOCAL-00001" summary="0.0.0.1">
+      <option name="closed" value="true" />
+      <created>1793562018226</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1793562018226</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="0.0.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.0.0.1" />
   </component>
 </project>

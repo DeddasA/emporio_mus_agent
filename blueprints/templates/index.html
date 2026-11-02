@@ -3,149 +3,189 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empório da Música - Atendimento Virtual IA</title>
+  <title>Empório da Música - Atendimento Especializado</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .chat-bubble { max-width: 80%; word-break: break-word; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #030712;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-[#050811] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
 
   <!-- Header -->
-  <header class="bg-slate-800/80 backdrop-blur border-b border-slate-700 p-4 sticky top-0 z-50">
-    <div class="max-w-5xl mx-auto flex items-center justify-between">
+  <header class="bg-[#080d1e]/90 backdrop-blur-md border-b border-sky-950/60 px-4 py-3 sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+
+      <!-- Logo + Título -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl border border-amber-500/30">
-          🎸
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0b1b3d] to-[#16366f] border border-cyan-500/30 flex items-center justify-center shadow-lg shadow-sky-950/50">
+          <!-- Logo Exclusiva Empório da Música (Clave de Sol e Violão) -->
+          <svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+          </svg>
         </div>
         <div>
-          <h1 class="font-bold text-lg text-white">Empório da Música</h1>
-          <p class="text-xs text-slate-400">Assistente Local DeepSeek • RAG Políticas & Dados CSV</p>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base md:text-lg text-white tracking-wide">EMPÓRIO DA MÚSICA</h1>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider bg-cyan-950/70 text-cyan-300 border border-cyan-500/30">OFICIAL</span>
+          </div>
+          <p class="text-xs text-sky-300/60 font-medium">Atendimento Virtual • Campo Grande - MS</p>
         </div>
       </div>
+
+      <!-- Status Badge -->
       <div class="flex items-center gap-2">
-        <span id="status-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-[#0b172e] text-emerald-400 border border-emerald-500/30 shadow-sm">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Chat online
+          Online
         </span>
       </div>
+
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-5xl w-full mx-auto flex-1 flex flex-col md:flex-row gap-4 p-4">
+  <!-- Container Central de Chat -->
+  <main class="max-w-4xl w-full mx-auto flex-1 flex flex-col p-3 md:p-6">
+    <div class="flex-1 flex flex-col bg-[#080d1c] border border-sky-950/80 rounded-2xl md:rounded-3xl shadow-2xl shadow-black/80 overflow-hidden">
 
-    <!-- Left Column: Chat Area -->
-    <section class="flex-1 flex flex-col bg-slate-800/50 rounded-2xl border border-slate-700/70 overflow-hidden shadow-xl">
+      <!-- Histórico de Mensagens -->
+      <div id="chat-box" class="flex-1 p-4 md:p-6 overflow-y-auto space-y-4 custom-scrollbar min-h-[460px] max-h-[68vh]">
 
-      <!-- Messages List -->
-      <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 min-h-[420px] max-h-[60vh] md:max-h-[68vh]">
+        <!-- Mensagem de Boas-vindas -->
         <div class="flex items-start gap-3">
-          <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-sm font-semibold border border-amber-500/40">
-            EM
+          <!-- Ícone Loja -->
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-950 to-blue-900 text-cyan-300 flex items-center justify-center shrink-0 border border-sky-700/40 shadow">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
+            </svg>
           </div>
-          <div class="chat-bubble bg-slate-700/80 text-slate-100 p-3.5 rounded-2xl rounded-tl-none border border-slate-600/50 text-sm leading-relaxed">
-            Olá! Seja bem-vindo(a) à <strong>Empório da Música</strong>! 🎵<br><br>
-            Sou seu assistente virtual especializado. Posso esclarecer dúvidas sobre nossas <strong>políticas de frete, trocas, devoluções, formas de pagamento</strong> ou consultar nosso <strong>catálogo e pedidos</strong>.<br><br>
-            Como posso te ajudar hoje?
+          <div class="max-w-[85%] bg-[#0e172e] text-slate-200 p-4 rounded-2xl rounded-tl-none border border-sky-900/40 text-sm leading-relaxed shadow-sm">
+            <span class="font-semibold text-cyan-400 block mb-1">Empório da Música</span>
+            Olá! Seja bem-vindo(a) à <strong>Empório da Música</strong>! 🎶<br><br>
+            Como posso te ajudar hoje? Posso consultar <strong>instrumentos disponíveis no estoque</strong>, verificar <strong>pedidos em andamento</strong> ou tirar dúvidas sobre <strong>frete, formas de pagamento e garantias</strong>.
           </div>
         </div>
+
       </div>
 
-      <!-- Quick prompts -->
-      <div class="px-4 py-2 border-t border-slate-700/40 bg-slate-800/30 flex gap-2 overflow-x-auto text-xs">
-        <button onclick="sendQuickPrompt('Vocês vendem encordoamento e palhetas?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
-          🎸 Vende cordas e palhetas?
+      <!-- Sugestões Rápidas -->
+      <div class="px-4 py-2.5 border-t border-sky-950/60 bg-[#070b18] flex gap-2 overflow-x-auto text-xs custom-scrollbar">
+        <button onclick="sendQuickPrompt('Quais violões vocês têm disponíveis até R$ 1000?')" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-[#0d162c] hover:bg-[#132040] text-sky-200 border border-sky-800/40 hover:border-cyan-500/50 transition">
+          🎸 Violões até R$ 1000
         </button>
-        <button onclick="sendQuickPrompt('Como funciona o frete para Campo Grande e para outras cidades?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
+        <button onclick="sendQuickPrompt('Quais opções de guitarras estão disponíveis no estoque?')" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-[#0d162c] hover:bg-[#132040] text-sky-200 border border-sky-800/40 hover:border-cyan-500/50 transition">
+          ⚡ Guitarras em estoque
+        </button>
+        <button onclick="sendQuickPrompt('Como funciona o frete e o envio para outras cidades?')" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-[#0d162c] hover:bg-[#132040] text-sky-200 border border-sky-800/40 hover:border-cyan-500/50 transition">
           🚚 Regras de Frete
         </button>
-        <button onclick="sendQuickPrompt('Posso parcelar no cartão em quantas vezes? Tem desconto no PIX?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
-          💳 Formas de Pagamento
-        </button>
-        <button onclick="sendQuickPrompt('Quais violões e guitarras vocês têm disponíveis no estoque?')" class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-300 border border-slate-600/40 transition">
-          📦 Consultar Estoque
+        <button onclick="sendQuickPrompt('Tem desconto no PIX e parcelamento no cartão?')" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-[#0d162c] hover:bg-[#132040] text-sky-200 border border-sky-800/40 hover:border-cyan-500/50 transition">
+          💳 Pagamento e PIX
         </button>
       </div>
 
-      <!-- Chat Input Form -->
-      <form id="chat-form" class="p-3 bg-slate-800 border-t border-slate-700 flex gap-2">
-        <input
-          type="text"
-          id="user-input"
-          placeholder="Digite sua dúvida sobre instrumentos ou políticas da loja..."
-          class="flex-1 bg-slate-900/90 text-slate-100 placeholder-slate-400 text-sm px-4 py-2.5 rounded-xl border border-slate-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition"
-          required
-        />
+      <!-- Barra de Input e Envio -->
+      <form id="chat-form" class="p-3 md:p-4 bg-[#0a1024] border-t border-sky-950/80 flex items-center gap-2.5">
+        <div class="relative flex-1">
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Digite sua dúvida sobre instrumentos, pedidos ou políticas..."
+            class="w-full bg-[#050813] text-slate-100 placeholder-slate-500 text-sm pl-4 pr-10 py-3 rounded-xl border border-sky-900/60 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition shadow-inner"
+            required
+            autocomplete="off"
+          />
+        </div>
+
         <button
           type="submit"
           id="send-btn"
-          class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-sm rounded-xl transition flex items-center gap-2 shadow-lg shadow-amber-500/20"
+          class="px-5 py-3 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 hover:from-blue-600 hover:to-cyan-400 text-white font-medium text-sm rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg shadow-sky-950 shrink-0"
         >
-          <span>Enviar</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <span class="hidden md:inline font-semibold">Enviar</span>
+          <svg class="w-4 h-4 transform rotate-90" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+          </svg>
         </button>
       </form>
-    </section>
 
-    <!-- Right Column: System & RAG Inspector Panel -->
-    <aside class="w-full md:w-80 flex flex-col gap-4">
-      <div class="bg-slate-800/50 rounded-2xl border border-slate-700/70 p-4 shadow-xl">
-        <h2 class="text-sm font-semibold text-white flex items-center gap-2 mb-3">
-          <span>⚙️</span> Raciocínio & RAG Trace
-        </h2>
-        <div id="trace-panel" class="text-xs text-slate-400 space-y-2 bg-slate-900/70 p-3 rounded-xl border border-slate-700/50 min-h-[140px] max-h-[220px] overflow-y-auto">
-          <p class="text-slate-500 italic">O trace do RAG e consultas SQL aparecerão aqui a cada interação...</p>
-        </div>
-      </div>
-
-      <div class="bg-slate-800/50 rounded-2xl border border-slate-700/70 p-4 shadow-xl flex-1 text-xs text-slate-400 space-y-3">
-        <h3 class="font-semibold text-slate-200 text-sm">📋 Base Conectada</h3>
-        <ul class="space-y-1.5 list-disc list-inside">
-          <li><strong>PDF:</strong> Políticas de Troca, Frete, Garantia (8 págs.)</li>
-          <li><strong>CSV:</strong> Produtos, Categorias, Promoções</li>
-          <li><strong>CSV:</strong> Clientes, Pedidos e Itens</li>
-          <li><strong>LLM:</strong> DeepSeek (via Ollama local)</li>
-        </ul>
-        <div class="pt-2 border-t border-slate-700/60">
-          <p class="text-[11px] text-slate-400">
-            <strong>Dica:</strong> Se o Ollama estiver rodando, as respostas usam o raciocínio local. Caso contrário, um aviso de inicialização é exibido.
-          </p>
-        </div>
-      </div>
-    </aside>
-
+    </div>
   </main>
+
+  <footer class="text-center py-2 text-[11px] text-slate-500 border-t border-sky-950/30">
+    Empório da Música Instrumentos Musicais Ltda. • Campo Grande - MS
+  </footer>
 
   <script>
     const chatBox = document.getElementById('chat-box');
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const tracePanel = document.getElementById('trace-panel');
 
     function appendMessage(role, text) {
       const isUser = role === 'user';
       const msgDiv = document.createElement('div');
       msgDiv.className = `flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`;
 
+      // Avatar
       const avatar = document.createElement('div');
-      avatar.className = `w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 border ${
+      avatar.className = `w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
         isUser
-          ? 'bg-blue-600/30 text-blue-300 border-blue-500/40'
-          : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+          ? 'bg-[#152347] text-cyan-300 border-cyan-500/40 shadow'
+          : 'bg-gradient-to-tr from-sky-950 to-blue-900 text-cyan-300 border-sky-700/40 shadow'
       }`;
-      avatar.innerText = isUser ? 'VOCÊ' : 'EM';
 
+      if (isUser) {
+        // Ícone Usuário (SVG)
+        avatar.innerHTML = `
+          <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        `;
+      } else {
+        // Ícone Loja (SVG)
+        avatar.innerHTML = `
+          <svg class="w-5 h-5 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
+          </svg>
+        `;
+      }
+
+      // Balão de Mensagem
       const bubble = document.createElement('div');
-      bubble.className = `chat-bubble p-3.5 rounded-2xl border text-sm leading-relaxed whitespace-pre-wrap ${
+      bubble.className = `max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap border ${
         isUser
-          ? 'bg-blue-600 text-white rounded-tr-none border-blue-500/60'
-          : 'bg-slate-700/80 text-slate-100 rounded-tl-none border-slate-600/50'
+          ? 'bg-gradient-to-br from-[#122b61] to-[#0c1f47] text-white rounded-tr-none border-cyan-500/30 shadow-md'
+          : 'bg-[#0e172e] text-slate-200 rounded-tl-none border-sky-900/40 shadow-sm'
       }`;
-      bubble.innerHTML = text.replace(/\\n/g, '<br>');
+
+      if (!isUser) {
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'font-semibold text-cyan-400 block mb-1 text-xs';
+        titleSpan.innerText = 'Empório da Música';
+        bubble.appendChild(titleSpan);
+      }
+
+      const content = document.createElement('div');
+      content.innerHTML = text.replace(/\n/g, '<br>');
+      bubble.appendChild(content);
 
       msgDiv.appendChild(avatar);
       msgDiv.appendChild(bubble);
@@ -166,17 +206,21 @@
       appendMessage('user', message);
       userInput.value = '';
       sendBtn.disabled = true;
-      sendBtn.classList.add('opacity-50');
+      sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-      // Loading bubble
+      // Indicador de digitação
       const loadingDiv = document.createElement('div');
       loadingDiv.id = 'loading-indicator';
       loadingDiv.className = 'flex items-start gap-3';
       loadingDiv.innerHTML = `
-        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center text-xs border border-amber-500/40">EM</div>
-        <div class="chat-bubble bg-slate-700/60 p-3 rounded-2xl rounded-tl-none border border-slate-600/40 text-xs text-slate-400 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-bounce"></span>
-          Digitando...
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-950 to-blue-900 text-cyan-300 flex items-center justify-center shrink-0 border border-sky-700/40">
+          <svg class="w-5 h-5 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
+          </svg>
+        </div>
+        <div class="bg-[#0e172e] p-3.5 rounded-2xl rounded-tl-none border border-sky-900/40 text-xs text-sky-400 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>Consultando catálogo e dados...</span>
         </div>
       `;
       chatBox.appendChild(loadingDiv);
@@ -190,22 +234,14 @@
         });
         const data = await res.json();
 
-        // Remove loading
         document.getElementById('loading-indicator')?.remove();
-
-        // Show AI response
-        appendMessage('assistant', data.response);
-
-        // Update trace
-        if (data.trace && data.trace.length > 0) {
-          tracePanel.innerHTML = data.trace.map(t => `<div class="p-1 rounded bg-slate-800/80 border border-slate-700/50">${t}</div>`).join('');
-        }
+        appendMessage('assistant', data.response || 'Não foi possível obter uma resposta no momento.');
       } catch (err) {
         document.getElementById('loading-indicator')?.remove();
-        appendMessage('assistant', '⚠️ Ocorreu um erro de comunicação com o servidor.');
+        appendMessage('assistant', '⚠️ Ocorreu uma instabilidade na comunicação com o servidor.');
       } finally {
         sendBtn.disabled = false;
-        sendBtn.classList.remove('opacity-50');
+        sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         userInput.focus();
       }
     });
