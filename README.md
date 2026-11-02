@@ -91,17 +91,17 @@ Este documento lista os cenários de teste para validar a precisão, a velocidad
 | **T05** | *"Quais as opções de ukulele?"* | Deve listar todos os ukuleles em estoque (Kala, Ohana, Kalani, etc.). | Busca por Categoria |
 **Imagens:**
 * Quanto custa a Yamaha F310?
-<img src="./img/01.png" alt="Texto alternativo" width="700" />
+<img src="./Img/01.png" alt="Texto alternativo" width="700" />
 ---
 * Quais violões disponíveis até R$1000?
-<img src="./img/02.png"  width="700" />
+<img src="./Img/02.png"  width="700" />
 ---
 
 * Vocês têm Tagima Memphis?
-<img src="./img/04.png"  width="700" />
+<img src="./Img/04.png"  width="700" />
 ---
 * Martin D-28
-<img src="./img/04.png"  width="700" />
+<img src="./Img/04.png"  width="700" />
 ---
 * Quais as opções de ukulele?
 <img src="./img/05.png"  width="700" />
@@ -120,26 +120,26 @@ Este documento lista os cenários de teste para validar a precisão, a velocidad
 | **T10** | *"Meu violão caiu no chão e quebrou uma parte. Tenho garantia?"* | Deve ser empático e informar que danos por queda **não** são cobertos, recomendando um luthier. | `policy.md` (Seção 6 - Garantia) |
 
 * Qual o endereço da loja?
-<img src="./img/06.png"  width="700" />
+<img src="./Img/06.png"  width="700" />
 ---
 * Como funciona o frete para outras cidades?
-<img src="./img/07.png"  width="700" />
+<img src="./Img/07.png"  width="700" />
 ---
 
 * Posso parcelar no cartão?
-<img src="./img/08.png"  width="700" />
+<img src="./Img/08.png"  width="700" />
 ---
 
 * Posso parcelar no cartão?
-<img src="./img/08.png"  width="700" />
+<img src="./Img/08.png"  width="700" />
 ---
 
 * Me arrependi da minha compra, posso devolver?
-<img src="./img/09.png"  width="700" />
+<img src="./Img/09.png"  width="700" />
 ---
 
 * Meu violão caiu no chão e quebrou uma parte. Tenho garantia?
-<img src="./img/10.png"  width="700" />
+<img src="./Img/10.png"  width="700" />
 ---
 
 
@@ -154,10 +154,10 @@ Este documento lista os cenários de teste para validar a precisão, a velocidad
 
 
 * Qual o status do pedido 5?
-<img src="./img/11.png"  width="700" />
+<img src="./Img/11.png"  width="700" />
 ---
 * Quero ver os pedidos do email rafael.pereira@jmail.com"
-<img src="./img/12.png"  width="700" />
+<img src="./Img/12.png"  width="700" />
 ---
 
 
@@ -173,10 +173,10 @@ Este documento lista os cenários de teste para validar a precisão, a velocidad
 |
 
 * DROP TABLE products
-<img src="./img/13.png"  width="700" />
+<img src="./Img/13.png"  width="700" />
 ---
 * Quais guitarras Fender vocês têm?
-<img src="./img/15.png"  width="700" />
+<img src="./Img/15.png"  width="700" />
 ---
 
 
