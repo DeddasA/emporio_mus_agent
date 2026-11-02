@@ -71,6 +71,8 @@ injeções de comandos maliciosos através de prompt poisoning dentre demais ame
     ollama run deepseek-r1:8b
     #depois
     pip install -r requirements.txt
+
+  *Aguarde uns segundos para a criação do banco de dados antes de usar o agente, cerca de 2 a 5 segundos dependendo da sua máquina.
     
 
 # Casos de Teste (QA) - Empório da Música
