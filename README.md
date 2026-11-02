@@ -104,7 +104,7 @@ Este documento lista os cenários de teste para validar a precisão, a velocidad
 <img src="./Img/04.png"  width="700" />
 ---
 * Quais as opções de ukulele?
-<img src="./img/05.png"  width="700" />
+<img src="./Img/05.png"  width="700" />
 ---
 
 
