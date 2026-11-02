@@ -3,7 +3,8 @@ from llm import LocalDeepSeek, DB_PATH
 from pdf_injector.pdf_loader import PolicyBase
 import sqlite3 as sq3
 from agent.musical_agent import MusicStoreAgent
-
+from schema.db_schema import csv_to_db
+import os
 
 
 
@@ -50,8 +51,29 @@ def health_endpoint():
         "model": deepseek_client.model_name,
         "database_path": DB_PATH
     })
-
 if __name__ == "__main__":
+
+
+
+    db_pronto = False
+    if os.path.exists(DB_PATH):
+        try:
+            conn = sq3.connect(DB_PATH)
+
+            tabelas = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='products';").fetchall()
+            if tabelas:
+                db_pronto = True
+            conn.close()
+        except Exception:
+            db_pronto = False
+
+
+    if not db_pronto:
+        print("⏳ Banco de dados não encontrado ou vazio. Gerando a partir dos CSVs...")
+        csv_to_db(force=True)
+    else:
+        print("✅ Banco de dados já existe. Pulando a geração.")
+
     print("\n" + "=" * 60)
     print("🎸 Servidor Empório da Música Agent rodando em: http://127.0.0.1:5000")
     print("=" * 60 + "\n")
